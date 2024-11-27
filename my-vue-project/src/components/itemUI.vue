@@ -1,22 +1,28 @@
 <template>
-  <div class="item">
+  <div class="item" @click="handleClick">
     <span>{{ item.name }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
+import { defineProps, defineEmits } from 'vue';
+
 interface Item {
-  id: string;
-  number: string;
+  id: number;
+  name: string;
 }
 
-const props = defineProps<{
-  item: Item;
+const props = defineProps<{ item: Item }>();
+const emit = defineEmits<{
+  (e: 'select', item: Item): void;
 }>();
+
+const handleClick = () => {
+  emit('select', props.item);
+};
 </script>
 
 <style scoped>
-
 .item {
   width: 100%;
   height: 40px;
@@ -25,10 +31,10 @@ const props = defineProps<{
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 span {
   text-align: center;
 }
-
 </style>
